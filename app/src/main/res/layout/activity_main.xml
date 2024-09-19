@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#87C4CB"
+    android:backgroundTint="?attr/colorSecondaryVariant"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="307dp"
+        android:layout_height="550dp"
+        android:layout_marginStart="@dimen/container_margin_start"
+        android:layout_marginTop="@dimen/container_margin_top"
+        android:layout_marginEnd="@dimen/container_margin_end"
+        android:layout_marginBottom="@dimen/container_margin_bottom"
+        android:background="@drawable/rounded_layout"
+        android:backgroundTint="?android:backgroundTint"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="140dp"
+            android:layout_height="114dp"
+            android:layout_gravity="center_horizontal"
+            android:contentDescription="@string/uma_bomba_de_gasolina_ilustrando_o_app"
+            android:paddingVertical="@dimen/imageview_padding_vertical"
+            android:textAlignment="center"
+            app:srcCompat="@mipmap/ic_launcher_foreground" />
+
+        <TextView
+            android:id="@+id/titulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/gasolina_ou_lcool"
+            android:textAlignment="center"
+            android:textColor="?attr/highContrastTextColor"
+            android:textSize="@dimen/titulo_text_size"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/labelGasolina"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/textmsg_margin_start"
+            android:layout_marginTop="@dimen/label_margin_top"
+            android:text="@string/pre_o_da_gasolina"
+            android:textColor="?attr/highContrastTextColor" />
+
+        <EditText
+            android:id="@+id/edGasolina"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/edittext_height"
+            android:layout_marginStart="@dimen/textmsg_margin_start"
+            android:layout_marginEnd="24dp"
+            android:background="@drawable/edittext_background"
+            android:backgroundTint="@color/material_on_surface_stroke"
+            android:hint="@string/_0"
+            android:inputType="numberDecimal"
+            android:autofillHints="" />
+
+        <TextView
+            android:id="@+id/labelAlcool"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/textmsg_margin_start"
+            android:layout_marginTop="@dimen/label_margin_top"
+            android:text="@string/pre_o_do_lcool"
+            android:textColor="?attr/highContrastTextColor" />
+
+        <EditText
+            android:id="@+id/edAlcool"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/edittext_height"
+            android:layout_marginStart="@dimen/textmsg_margin_start"
+            android:layout_marginEnd="24dp"
+            android:background="@drawable/edittext_background"
+            android:backgroundTint="@color/material_on_surface_stroke"
+            android:hint="@string/_0"
+            android:inputType="numberDecimal"
+            android:autofillHints="" />
+
+        <Switch
+            android:id="@+id/swPercentual"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/textmsg_margin_start"
+            android:layout_marginTop="@dimen/switch_margin_top"
+            android:text="@string/percentual_70"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:layout_marginHorizontal="20dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btCalcular"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/button_height"
+                android:layout_marginEnd="16dp"
+                android:backgroundTint="?attr/colorSecondary"
+                android:text="@string/calcular" />
+
+            <Button
+                android:id="@+id/btnOpenMaps"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="?attr/colorSecondary"
+                android:text="@string/google_maps"
+                tools:ignore="HardcodedText" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textMsg"
+            android:layout_width="257dp"
+            android:layout_height="@dimen/textmsg_height"
+            android:layout_marginStart="@dimen/textmsg_margin_start"
+            android:layout_marginEnd="@dimen/textmsg_margin_end"
+            android:text="@string/qual_a_melhor"
+            android:textColor="?attr/colorSecondary"
+            android:textSize="@dimen/textmsg_text_size" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

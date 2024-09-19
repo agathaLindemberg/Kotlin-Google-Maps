@@ -1,0 +1,23 @@
+<resources>
+    <!-- Valores para telas hdpi -->
+    <dimen name="container_margin_start">20dp</dimen>
+    <dimen name="container_margin_end">20dp</dimen>
+    <dimen name="container_margin_top">20dp</dimen>
+    <dimen name="container_margin_bottom">20dp</dimen>
+    <dimen name="imageview_width">120dp</dimen>
+    <dimen name="imageview_height">120dp</dimen>
+    <dimen name="imageview_margin_bottom">6dp</dimen>
+    <dimen name="imageview_padding_vertical">11dp</dimen>
+    <dimen name="titulo_margin_bottom">11dp</dimen>
+    <dimen name="titulo_text_size">16sp</dimen>
+    <dimen name="label_margin_top">17dp</dimen>
+    <dimen name="edittext_height">32dp</dimen>
+    <dimen name="switch_margin_top">17dp</dimen>
+    <dimen name="button_height">50dp</dimen>
+    <dimen name="button_margin_bottom">60dp</dimen>
+    <dimen name="textmsg_height">90dp</dimen>
+    <dimen name="textmsg_margin_start">20dp</dimen>
+    <dimen name="textmsg_margin_end">20dp</dimen>
+    <dimen name="textmsg_margin_bottom">40dp</dimen>
+    <dimen name="textmsg_text_size">17sp</dimen>
+</resources>

@@ -1,0 +1,6 @@
+<resources>
+    <declare-styleable name="CustomTextView">
+        <attr name="highContrastTextColor" format="color" />
+        <attr name="highContrastSecondaryTextColor" format="color" />
+    </declare-styleable>
+</resources>

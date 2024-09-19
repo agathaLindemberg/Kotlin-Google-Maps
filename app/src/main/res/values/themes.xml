@@ -1,0 +1,28 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.AlcoolOuGasolina" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">#803100</item>
+        <item name="colorPrimaryVariant">#C06040</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorPrimaryDark">#1F1F1F</item>
+
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">#803100</item>
+        <item name="colorSecondaryVariant">#B24700</item>
+        <item name="colorOnSecondary">#FFFFFF</item>
+
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">#B24700</item>
+
+        <!-- Customize your theme here. -->
+        <item name="android:textColorPrimary">#1F1F1F</item>
+        <item name="android:textColorHint">#666666</item>
+        <item name="android:backgroundTint">#FFFFFF</item>
+
+        <!-- Custom colors for high contrast text -->
+        <item name="highContrastTextColor">#000000</item>
+        <item name="highContrastSecondaryTextColor">#FF0000</item>
+        <item name="android:textColor">?attr/highContrastTextColor</item>
+    </style>
+</resources>

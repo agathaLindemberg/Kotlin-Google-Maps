@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">With what fuel?</string>
+    <string name="percentual_70">70%</string>
+    <string name="percentual_75">75%</string>
+    <string name="uma_bomba_de_gasolina_ilustrando_o_app">A gas pump illustrating the app</string>
+    <string name="gasolina_ou_lcool">Gasoline or Alcohol?</string>
+    <string name="pre_o_da_gasolina">Gasoline price</string>
+    <string name="_0">0</string>
+    <string name="pre_o_do_lcool">Price of alcohol</string>
+    <string name="qual_a_melhor">Which is the best?</string>
+    <string name="calcular">Calculate</string>
+    <string name="text_msg_default">Enter prices and calculate to see which is better.</string>
+    <string name="mensagem_alcool_mais_rentavel">It is more economical to use alcohol, as alcohol is %1$s%% of gasoline, which is less than %2$d.</string>
+    <string name="mensagem_gasolina_mais_rentavel">It is more economical to use gasoline, as alcohol is %1$s%% of gasoline, which is greater than %2$d.</string>
+    <string name="preecha_valores">Please enter the prices of alcohol and gasoline.</string>
+    <string name="google_maps">Google Maps</string>
+</resources>

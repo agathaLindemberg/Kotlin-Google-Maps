@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Com qual combustível?</string>
+    <string name="percentual_70">70%</string>
+    <string name="percentual_75">75%</string>
+    <string name="uma_bomba_de_gasolina_ilustrando_o_app">Uma bomba de gasolina ilustrando o app</string>
+    <string name="gasolina_ou_lcool">Gasolina ou Álcool?</string>
+    <string name="pre_o_da_gasolina">Preço da gasolina</string>
+    <string name="_0">0</string>
+    <string name="pre_o_do_lcool">Preço do álcool</string>
+    <string name="qual_a_melhor">Qual é o melhor?</string>
+    <string name="calcular">Calcular</string>
+    <string name="text_msg_default">Digite os preços e calcule para ver qual é melhor.</string>
+    <string name="mensagem_alcool_mais_rentavel">É mais rentável abastecer com álcool, já que o álcool é %1$s%% da gasolina, o que é menor que %2$d.</string>
+    <string name="mensagem_gasolina_mais_rentavel">É mais rentável abastecer com gasolina, já que o álcool é %1$s%% da gasolina, o que é maior que %2$d.</string>
+    <string name="preecha_valores">Por favor, insira os preços do álcool e da gasolina.</string>
+</resources>

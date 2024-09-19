@@ -1,0 +1,23 @@
+<resources>
+    <!-- Valores para orientação paisagem -->
+    <dimen name="container_margin_start">24dp</dimen>
+    <dimen name="container_margin_end">24dp</dimen>
+    <dimen name="container_margin_top">1dp</dimen>
+    <dimen name="container_margin_bottom">10dp</dimen>
+    <dimen name="imageview_width">60dp</dimen>
+    <dimen name="imageview_height">60dp</dimen>
+    <dimen name="imageview_margin_bottom">3dp</dimen>
+    <dimen name="imageview_padding_vertical">12dp</dimen>
+    <dimen name="titulo_margin_bottom">14dp</dimen>
+    <dimen name="titulo_text_size">18sp</dimen>
+    <dimen name="label_margin_top">18dp</dimen>
+    <dimen name="edittext_height">20dp</dimen>
+    <dimen name="switch_margin_top">20dp</dimen>
+    <dimen name="button_height">56dp</dimen>
+    <dimen name="button_margin_bottom">16dp</dimen>
+    <dimen name="textmsg_height">60dp</dimen>
+    <dimen name="textmsg_margin_start">24dp</dimen>
+    <dimen name="textmsg_margin_end">24dp</dimen>
+    <dimen name="textmsg_margin_bottom">30dp</dimen>
+    <dimen name="textmsg_text_size">13sp</dimen>
+</resources>

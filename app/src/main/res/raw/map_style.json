@@ -1,0 +1,23 @@
+[
+  {
+    "featureType": "all",
+    "elementType": "geometry",
+    "stylers": [
+      { "color": "#242f3e" }
+    ]
+  },
+  {
+    "featureType": "all",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      { "color": "#746855" }
+    ]
+  },
+  {
+    "featureType": "poi",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      { "color": "#d59563" }
+    ]
+  }
+]
