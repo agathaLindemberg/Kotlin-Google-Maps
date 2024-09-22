@@ -24,6 +24,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.net.PlacesClient
@@ -34,6 +35,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
     private var savedMarkerLocation: LatLng? = null
     private lateinit var placesClient: PlacesClient
+    private val orangeMarkers = mutableListOf<Marker>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,7 +78,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun checkLocationPermissions(): Boolean {
-        return if (ActivityCompat.checkSelfPermission(
+        if (ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED &&
@@ -90,10 +92,9 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                 1
             )
-            false
-        } else {
-            true
+            return false
         }
+        return true
     }
 
     @SuppressLint("MissingPermission")
@@ -106,7 +107,12 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                 if (location != null) {
                     val currentLatLng = LatLng(location.latitude, location.longitude)
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 14f))
-
+                    mMap.addMarker(
+                        MarkerOptions()
+                            .position(currentLatLng)
+                            .title("Local atual")
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+                    )
                 } else {
                     Toast.makeText(
                         this,
@@ -119,9 +125,17 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
         loadSavedMarkers()
         mMap.setOnMapClickListener { latLng ->
-            mMap.clear()
-            mMap.addMarker(MarkerOptions().position(latLng).title("Novo Local"))
+            clearOrangeMarkers()
+            val marker = mMap.addMarker(
+                MarkerOptions()
+                    .position(latLng)
+                    .title("Novo Local")
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
+            )
             savedMarkerLocation = latLng
+            if (marker != null) {
+                orangeMarkers.add(marker)
+            }
         }
     }
 
@@ -144,7 +158,11 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                                 MarkerOptions()
                                     .position(latLng)
                                     .title("Histórico")
-                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
+                                    .icon(
+                                        BitmapDescriptorFactory.defaultMarker(
+                                            BitmapDescriptorFactory.HUE_BLUE
+                                        )
+                                    )
                             )
                         }
                     }
@@ -164,5 +182,12 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         } catch (e: Resources.NotFoundException) {
             Log.e("MapStyle", "Can't find style. Error: ", e)
         }
+    }
+
+    private fun clearOrangeMarkers() {
+        for (marker in orangeMarkers) {
+            marker.remove()
+        }
+        orangeMarkers.clear()
     }
 }
