@@ -13,3 +13,5 @@
 .externalNativeBuild
 .cxx
 local.properties
+app/src/main/res/values/senha.xml
+app/src/main/res/values-pt/senha.xml

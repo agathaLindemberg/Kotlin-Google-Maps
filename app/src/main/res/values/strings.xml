@@ -13,5 +13,6 @@
     <string name="mensagem_alcool_mais_rentavel">It is more economical to use alcohol, as alcohol is %1$s%% of gasoline, which is less than %2$d.</string>
     <string name="mensagem_gasolina_mais_rentavel">It is more economical to use gasoline, as alcohol is %1$s%% of gasoline, which is greater than %2$d.</string>
     <string name="preecha_valores">Please enter the prices of alcohol and gasoline.</string>
-    <string name="google_maps">Google Maps</string>
+    <string name="google_maps" translatable="false">Google Maps</string>
+    <string name="salvar_precos">Save prices</string>
 </resources>

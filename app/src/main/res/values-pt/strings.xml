@@ -13,4 +13,6 @@
     <string name="mensagem_alcool_mais_rentavel">É mais rentável abastecer com álcool, já que o álcool é %1$s%% da gasolina, o que é menor que %2$d.</string>
     <string name="mensagem_gasolina_mais_rentavel">É mais rentável abastecer com gasolina, já que o álcool é %1$s%% da gasolina, o que é maior que %2$d.</string>
     <string name="preecha_valores">Por favor, insira os preços do álcool e da gasolina.</string>
+    <string name="google_maps" translatable="false">Google Maps</string>
+    <string name="salvar_precos">Salvar preços</string>
 </resources>

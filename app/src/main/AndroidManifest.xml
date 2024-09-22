@@ -20,6 +20,13 @@
             android:name="android.supportedLocales"
             android:value="en,pt" />
 
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/api_key" />
+
+        <activity android:name=".InputPricesActivity" />
+        <activity android:name=".HistoryActivity" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true">

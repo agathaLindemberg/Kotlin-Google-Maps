@@ -5,105 +5,73 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.Manifest
+import android.content.res.Resources
+import android.location.Geocoder
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
-import android.widget.EditText
-import android.widget.Switch
-import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MapStyleOptions
+import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.net.PlacesClient
 
-class MainActivity : AppCompatActivity() {
-    private lateinit var etPrecoAlcool: EditText
-    private lateinit var etPrecoGasolina: EditText
-    private lateinit var btCalc: Button
-    private lateinit var btnOpenMaps: Button
-    private lateinit var textMsg: TextView
+class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var sharedPreferences: SharedPreferences
-
-    @SuppressLint("UseSwitchCompatOrMaterialCode")
-    private lateinit var switch: Switch
-    private var swPercentual = 70
+    private lateinit var mMap: GoogleMap
+    private var savedMarkerLocation: LatLng? = null
+    private lateinit var placesClient: PlacesClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        if (!Places.isInitialized()) {
+            Places.initialize(applicationContext, getString(R.string.api_key))
+        }
+
+        placesClient = Places.createClient(this)
 
         initUI()
-        loadPreferences()
-        setupListeners()
     }
 
     private fun initUI() {
-        btnOpenMaps = findViewById(R.id.btnOpenMaps)
-        etPrecoAlcool = findViewById(R.id.edAlcool)
-        etPrecoGasolina = findViewById(R.id.edGasolina)
-        btCalc = findViewById(R.id.btCalcular)
-        textMsg = findViewById(R.id.textMsg)
-        switch = findViewById(R.id.swPercentual)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
-    }
+        val btnSaveHistory = findViewById<Button>(R.id.btnSaveHistory)
+        val btnViewHistory = findViewById<Button>(R.id.btnViewHistory)
 
-    private fun setupListeners() {
-        btnOpenMaps.setOnClickListener { openMaps() }
+        val mapFragment = supportFragmentManager
+            .findFragmentById(R.id.map) as SupportMapFragment
+        mapFragment.getMapAsync(this)
 
-        btCalc.setOnClickListener { calculateRentability() }
-
-        switch.setOnCheckedChangeListener { _, isChecked ->
-            swPercentual = if (isChecked) 75 else 70
-            updatePercentualText(swPercentual)
-        }
-    }
-
-    private fun loadPreferences() {
-        val precoAlcool = sharedPreferences.getFloat("precoAlcool", 0.0f)
-        val precoGasolina = sharedPreferences.getFloat("precoGasolina", 0.0f)
-        val isChecked = sharedPreferences.getBoolean("isChecked", false)
-        val textMensagem = sharedPreferences.getString("textMensagem", "")
-
-        etPrecoAlcool.setText(precoAlcool.toString())
-        etPrecoGasolina.setText(precoGasolina.toString())
-        switch.isChecked = isChecked
-        textMsg.text = textMensagem
-        swPercentual = if (isChecked) 75 else 70
-
-        updatePercentualText(swPercentual)
-    }
-
-    private fun updatePercentualText(swPercentual: Int) {
-        switch.text = getString(
-            if (swPercentual == 75) R.string.percentual_75 else R.string.percentual_70
-        )
-    }
-
-    @SuppressLint("MissingPermission")
-    private fun openMaps() {
-        if (checkLocationPermissions()) {
-            fusedLocationClient.lastLocation.addOnSuccessListener { location ->
-                if (location != null) {
-                    val latitude = location.latitude
-                    val longitude = location.longitude
-                    val gmmIntentUri = Uri.parse(
-                        "geo:$latitude,$longitude?q=postos+de+gasolina&radius=300"
-                    )
-                    val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-                    mapIntent.setPackage("com.google.android.apps.maps")
-                    startActivity(mapIntent)
-                } else {
-                    Toast.makeText(
-                        this, "Não foi possível obter a localização atual",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+        btnSaveHistory.setOnClickListener {
+            if (savedMarkerLocation != null) {
+                val intent = Intent(this, InputPricesActivity::class.java)
+                intent.putExtra("latitude", savedMarkerLocation?.latitude)
+                intent.putExtra("longitude", savedMarkerLocation?.longitude)
+                startActivity(intent)
+            } else {
+                val builder = AlertDialog.Builder(this)
+                builder.setMessage("Por favor, selecione um local no mapa primeiro!")
+                builder.show()
             }
+        }
+
+        btnViewHistory.setOnClickListener {
+            startActivity(Intent(this, HistoryActivity::class.java))
         }
     }
 
@@ -128,48 +96,73 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun calculateRentability() {
-        val precoAlcoolText = etPrecoAlcool.text.toString()
-        val precoGasolinaText = etPrecoGasolina.text.toString()
+    @SuppressLint("MissingPermission")
+    override fun onMapReady(googleMap: GoogleMap) {
+        mMap = googleMap
+        setMapStyle()
 
-        if (precoAlcoolText.isNotEmpty() && precoGasolinaText.isNotEmpty()) {
-            try {
-                val precoAlcool = precoAlcoolText.toFloat()
-                val precoGasolina = precoGasolinaText.toFloat()
-                val percentual = precoAlcool / precoGasolina * 100
-                val percentualFormatado = String.format("%.2f", percentual)
+        if (checkLocationPermissions()) {
+            fusedLocationClient.lastLocation.addOnSuccessListener { location ->
+                if (location != null) {
+                    val currentLatLng = LatLng(location.latitude, location.longitude)
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 14f))
 
-                textMsg.text = if (percentual <= swPercentual) {
-                    getString(
-                        R.string.mensagem_alcool_mais_rentavel,
-                        percentualFormatado,
-                        swPercentual
-                    )
                 } else {
-                    getString(
-                        R.string.mensagem_gasolina_mais_rentavel,
-                        percentualFormatado,
-                        swPercentual
-                    )
+                    Toast.makeText(
+                        this,
+                        "Não foi possível obter a localização atual",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
-
-                savePreferences(precoAlcool, precoGasolina, textMsg.text.toString())
-            } catch (e: Exception) {
-                Log.e("MainActivity", "Erro ao calcular rentabilidade", e)
-                textMsg.text = getString(R.string.preecha_valores)
             }
-        } else {
-            textMsg.text = getString(R.string.preecha_valores)
+        }
+
+        loadSavedMarkers()
+        mMap.setOnMapClickListener { latLng ->
+            mMap.clear()
+            mMap.addMarker(MarkerOptions().position(latLng).title("Novo Local"))
+            savedMarkerLocation = latLng
         }
     }
 
-    private fun savePreferences(precoAlcool: Float, precoGasolina: Float, mensagem: String) {
-        with(sharedPreferences.edit()) {
-            putFloat("precoAlcool", precoAlcool)
-            putFloat("precoGasolina", precoGasolina)
-            putBoolean("isChecked", switch.isChecked)
-            putString("textMensagem", mensagem)
-            apply()
+    private fun loadSavedMarkers() {
+        val history = sharedPreferences.getString("history", "")
+        if (!history.isNullOrEmpty()) {
+            val lines = history.split("\n\n")
+            for (line in lines) {
+                val regex = "📍 Localização: (.+?)/".toRegex()
+                val matchResult = regex.find(line)
+                if (matchResult != null) {
+                    val address = matchResult.groupValues[1]
+                    val geocoder = Geocoder(this)
+                    val locationList = geocoder.getFromLocationName(address, 1)
+                    if (locationList != null) {
+                        if (locationList.isNotEmpty()) {
+                            val location = locationList[0]
+                            val latLng = LatLng(location.latitude, location.longitude)
+                            mMap.addMarker(
+                                MarkerOptions()
+                                    .position(latLng)
+                                    .title("Histórico")
+                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun setMapStyle() {
+        try {
+            val success = mMap.setMapStyle(
+                MapStyleOptions.loadRawResourceStyle(this, R.raw.map_style)
+            )
+            if (!success) {
+                Log.e("MapStyle", "Style parsing failed.")
+            }
+        } catch (e: Resources.NotFoundException) {
+            Log.e("MapStyle", "Can't find style. Error: ", e)
         }
     }
 }
